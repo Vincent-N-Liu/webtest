@@ -1,0 +1,149 @@
+/* css styles */
+
+
+/* 卡片样式 */
+.card {
+  /* #ffffff; 十六进制颜色代码*/
+  /* https://coolors.co*/  /* 十六进制颜色代码表*/
+  background-color: #ffffff;  /*卡片背景:纯白*/
+  
+  /*1像素实线边框，颜色是浅米棕色*/
+  border: 1px solid #e0d6cc;  
+  
+  /*四个角各圆滑 12px，呈圆角矩形*/
+  border-radius: 12px;
+  
+  /*向下偏移 2px、半径 8px 的淡灰色阴影(产生悬浮感)*/
+  /*rgba(0, 0, 0, 0.08) 是带透明度的黑色。
+  前三个数字是 RGB 颜色（0,0,0 = 黑），
+  第四个 0.08 是不透明度（8%），
+  所以阴影几乎是透明的，只有轻微灰色。*/
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  
+  /*卡片内部留白：上下 1.2rem，左右 1.5rem*/
+  /* 1rem=16px */
+  /*使用 rem 比固定 px 更适合响应式设计*/
+  padding: 1.2rem 1.5rem;
+  
+  /*卡片与下方元素之间的间距*/
+  margin-bottom: 1.5rem;
+  
+}
+
+
+
+/* 卡片内的图片(img, image)样式 */
+.card img {
+  /* 图片宽度撑满整个卡片，不会溢出也不会留白*/
+  width: 100%;
+  
+  /* 固定图片高度，让所有卡片图片一样高 */
+  height: 320px;
+  
+  /* 裁切多余部分，保持图片比例不变形 */
+  object-fit: cover;
+  
+  /* 图片四角圆滑 8px，比卡片本身（12px）略小
+  使视觉上更自然*/
+  border-radius: 8px;
+  
+  /*图片与下方文字之间留出约 13px 的间距*/
+  margin-bottom: 0.8rem;
+}
+
+
+
+/* 标签(tag)徽章(badge) */
+.badge-tag {
+  /*让标签像文字一样横向排列(in-line)并做成按钮形状(block)*/
+  display: inline-block;
+  
+  /*浅米色背景*/
+  background-color: #f0e8e0;
+  
+  /*1px 实线边框，颜色为米棕色*/
+  border: 1px solid #d4c4b8;
+  
+  /*圆角设为20px，让标签呈现胶囊形状*/
+  border-radius: 20px;
+  
+  /*文字颜色为深咖啡色*/
+  color: #6B4F4F;
+  
+  /*内边距：上下 0.15rem（窄），
+  左右 0 .65rem（稍宽），让文字不紧贴边框*/
+  padding: 0.15rem 0.65rem;
+  
+  /*字号约 0.78rem=12.5px，比正文稍小*/
+  font-size: 0.78rem;
+  
+  /*外边距，顺序是上 右 下 左：
+  上=0，
+  右=0.25rem（标签之间的间距），
+  下=0.5rem（与下方内容的间距），
+  左=0 */
+  margin: 0 0.25rem 0.5rem 0;
+}
+
+
+/* 豆瓣(douban)评分徽章(badge) */
+.badge-douban {
+  display: inline-block;
+  background-color: #f3a02a; /*背景色：橙色*/
+  color: #ffffff; /*文字颜色色：白色*/
+  border-radius: 20px;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: bold; /*文字加粗*/
+  margin: 0 0.25rem 0.5rem 0;
+}
+
+/* 卡片内的所有段落文字(P, paragraph)文字 */
+.card p {
+  /*字体大小0.92rem=14.7px，比正文1rem略小*/
+  font-size: 0.92rem;
+  
+  /*深灰色字体*/
+  color: #4a4a4a;
+  
+  /*行距为字号的 1.6 倍 */ 
+  /*段落排列较宽松，提高可读性（默认 1.2）*/
+  line-height: 1.6;
+  
+  /*简介文字与下方链接按钮之间的间距*/
+  margin-bottom: 0.8rem;
+}
+
+
+/* 卡片内的所有链接(a) */
+.card a {
+  /* 每个链接独占一行，由上到下排列 */
+  display: block;
+  
+  /*外边距（上 右 下 左）：
+  按钮之间上下各 0.3rem, 右边距 0.4rem，左边不留*/
+  margin: 0.3rem 0.4rem 0.3rem 0;
+  
+  /*内边距：上下 0.5rem，左右 0.9rem，
+  让文字不紧贴按钮边缘*/
+  padding: 0.5rem 0.9rem;
+  
+  /*深咖啡色背景*/
+  background-color: #6B4F4F;
+  
+  /*文字强制为白色；
+  !important 是用来覆盖 Quarto 
+  主题默认给链接设置的颜色，确保不被其他样式干扰*/
+  color: #ffffff !important;
+  
+  /*轻微圆角，让按钮看起来不那么生硬*/
+  border-radius: 6px;
+  
+  /*去掉链接默认的下划线*/
+  text-decoration: none;
+  
+  /* 字号0.92rem=14.7px */
+  font-size: 0.92em;
+}
+
+
