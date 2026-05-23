@@ -1,0 +1,256 @@
+---
+title: "留言板"
+---
+
+歡迎留下您的足跡！✍️
+
+```{=html}
+<style>
+  .gb-form-card {
+    background: #faf5ee;
+    border: 1px solid #e8ddd0;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+  }
+
+  .gb-form-card label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #6B4F4F;
+  }
+
+  .gb-form-card input[type="text"],
+  .gb-form-card textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d3c5b8;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    background: #fff;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .gb-form-card input[type="text"]:focus,
+  .gb-form-card textarea:focus {
+    outline: none;
+    border-color: #6B4F4F;
+  }
+
+  .gb-form-card textarea {
+    height: 100px;
+    resize: vertical;
+  }
+
+  .gb-submit-btn {
+    background: #6B4F4F;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .gb-submit-btn:hover {
+    background: #4e3535;
+  }
+
+  .gb-notice {
+    color: #c0392b;
+    font-size: 13px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+    display: none;
+  }
+
+  .gb-messages {
+    margin-top: 16px;
+  }
+
+  .gb-message-item {
+    background: #fff;
+    border: 1px solid #e8ddd0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .gb-message-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .gb-avatar {
+    width: 36px;
+    height: 36px;
+    background: #6B4F4F;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .gb-name {
+    font-weight: 600;
+    color: #6B4F4F;
+  }
+
+  .gb-time {
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  .gb-content {
+    color: #333;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .gb-delete-btn {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 16px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .gb-delete-btn:hover {
+    color: #c0392b;
+  }
+
+  .gb-empty {
+    text-align: center;
+    color: #bbb;
+    padding: 32px 0;
+    font-size: 15px;
+  }
+</style>
+
+<!-- 留言表單 -->
+<div class="gb-form-card">
+  <label for="gb-name">姓名</label>
+  <input type="text" id="gb-name" placeholder="請輸入您的姓名" maxlength="30">
+  <div class="gb-notice" id="gb-name-notice">請填寫姓名</div>
+
+  <label for="gb-content">留言內容</label>
+  <textarea id="gb-content" placeholder="請輸入留言內容…" maxlength="500"></textarea>
+  <div class="gb-notice" id="gb-content-notice">請填寫留言內容</div>
+
+  <button class="gb-submit-btn" onclick="submitMessage()">送出留言</button>
+</div>
+
+<!-- 留言列表 -->
+<div class="gb-messages" id="gb-messages"></div>
+
+<script>
+  const STORAGE_KEY = 'guestbook_messages';
+
+  function getMessages() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveMessages(msgs) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
+  }
+
+  function formatTime(isoStr) {
+    const d = new Date(isoStr);
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  function avatarLetter(name) {
+    return name.trim().charAt(0).toUpperCase() || '?';
+  }
+
+  function renderMessages() {
+    const container = document.getElementById('gb-messages');
+    const msgs = getMessages();
+
+    if (msgs.length === 0) {
+      container.innerHTML = '<div class="gb-empty">目前還沒有留言，快來第一個留言吧！</div>';
+      return;
+    }
+
+    container.innerHTML = msgs.slice().reverse().map((m, i) => {
+      const realIndex = msgs.length - 1 - i;
+      return `
+        <div class="gb-message-item">
+          <button class="gb-delete-btn" onclick="deleteMessage(${realIndex})" title="刪除此留言">×</button>
+          <div class="gb-message-header">
+            <div class="gb-avatar">${avatarLetter(m.name)}</div>
+            <div>
+              <div class="gb-name">${escapeHtml(m.name)}</div>
+              <div class="gb-time">${formatTime(m.time)}</div>
+            </div>
+          </div>
+          <div class="gb-content">${escapeHtml(m.content)}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function submitMessage() {
+    const nameEl = document.getElementById('gb-name');
+    const contentEl = document.getElementById('gb-content');
+    const nameNotice = document.getElementById('gb-name-notice');
+    const contentNotice = document.getElementById('gb-content-notice');
+
+    const name = nameEl.value.trim();
+    const content = contentEl.value.trim();
+
+    let valid = true;
+    if (!name) { nameNotice.style.display = 'block'; valid = false; }
+    else { nameNotice.style.display = 'none'; }
+    if (!content) { contentNotice.style.display = 'block'; valid = false; }
+    else { contentNotice.style.display = 'none'; }
+    if (!valid) return;
+
+    const msgs = getMessages();
+    msgs.push({ name, content, time: new Date().toISOString() });
+    saveMessages(msgs);
+
+    nameEl.value = '';
+    contentEl.value = '';
+    renderMessages();
+  }
+
+  function deleteMessage(index) {
+    if (!confirm('確定要刪除這則留言嗎？')) return;
+    const msgs = getMessages();
+    msgs.splice(index, 1);
+    saveMessages(msgs);
+    renderMessages();
+  }
+
+  // 初始化
+  renderMessages();
+</script>
+```

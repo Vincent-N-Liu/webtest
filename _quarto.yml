@@ -1,0 +1,41 @@
+project:
+  type: website
+
+website:
+  title: "简历网站测试"
+  navbar:
+    backgroud: "#FAF5EE"  #浅米色
+    forefround: "#6B4F4F" #深咖啡
+    left:
+      - href: index.qmd
+        text: 首页
+      - href: about.qmd
+        text: 关于我 
+      - href: travel.qmd
+        text: 旅行
+      - href: food.qmd
+        text: 美食
+      - href: drama.qmd
+        text: 影视剧
+      - href: movie.qmd
+        text: 电影
+      - href: music.qmd
+        text: 音乐
+      - text: "更多"
+        menu:
+          - href: academic.qmd
+            text: 学术资源
+    right:
+      - href: works.qmd
+        text: 我的作品集    
+      - href: guestbook.qmd
+        text: 留言板
+format:
+  html:
+    theme:
+      - pulse
+    css: styles.css
+    toc: True
+
+editor: visual
+

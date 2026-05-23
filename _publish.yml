@@ -1,0 +1,9 @@
+- source: project
+  netlify:
+    - id: 22dc47e3-5d02-4911-945f-009a2e3a4415
+      url: https://jazzy-biscotti-c2b749.netlify.app
+    - id: f564c016-0dae-4782-b120-193add147009
+      url: https://rad-croissant-af859c.netlify.app
+  posit-connect-cloud:
+    - id: 019e26fb-7057-6f99-fdfc-149727b8846d
+      url: https://connect.posit.cloud/vincent-n-liu/content/019e26fb-7057-6f99-fdfc-149727b8846d
